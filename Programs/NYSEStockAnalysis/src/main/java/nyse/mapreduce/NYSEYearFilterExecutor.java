@@ -20,16 +20,25 @@ import nyse.keyvalues.StockMonthPair;
 
 /**
  * Map-Reduce Program to calculate Average volume of stock traded per month for year 2012 and 2013
- * Run this class with 3 arguments
- * 1. Input directory
- * 2. Regex Expression to filter out required files
- * 3. Output Directory
+ * Run this class with 4 arguments
+ * 1. With parameter to pass to MR application as
+ * 	-Dfilter.by.stockticker=<stocks to filter>
+ * 2. Input directory
+ * 3. Regex Expression to filter out required files
+ * 4. Output Directory
  * e.g.
- * /home/anup/Datasets/nyse/ nyse_201[2-3]* /home/anup/work/mapreduce/avgstockpermonthfilter
+ * -Dfilter.by.stockticker=BAC,APL /home/anup/Datasets/nyse/ nyse_201[2-3]* /home/anup/work/mapreduce/avgstockpermonthfilter
  * 
  * as data is stored in .csv files, so added wild card * to get all files satisfying regex.
  * If data is stored in seperate directories having names as nyse_2012, nyse_2013,
  * no need to give wild card character *
+ * 
+ * for execution on cluster run:
+ * hadoop jar /home/anup/Documents/mapreduce/nyse_avg_stock_per_month_filtered.jar 
+ * 				-Dfilter.by.stockticker=BAC,APL /anup/data/nyse/  
+ * 				 nyse_201[2-3]* 
+ * 				 /anup/mapreduce/output/avgstockpermonthfiltered
+ * 
  */
 
 public class NYSEYearFilterExecutor extends Configured implements Tool 
@@ -58,7 +67,7 @@ public class NYSEYearFilterExecutor extends Configured implements Tool
 		 * very inefficient. So, we need to use CombineTextInputFormat class 
 		 */
 		job.setInputFormatClass(CombineTextInputFormat.class);
-		job.setMapperClass(NYSEMapper.class);
+		job.setMapperClass(NYSEMapperWithFilter.class);
 		
 		job.setMapOutputKeyClass(StockMonthPair.class);
 		job.setMapOutputValueClass(VolumeCountPair.class);
