@@ -16,6 +16,8 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import nyse.keyvalues.VolumeCountPair;
+import nyse.partitioners.MonthPartitioner;
+import nyse.partitioners.StockPartitioner;
 import nyse.keyvalues.StockMonthPair;
 
 /**
@@ -78,7 +80,9 @@ public class NYSEYearFilterExecutor extends Configured implements Tool
 		job.setOutputKeyClass(StockMonthPair.class);
 		job.setOutputValueClass(VolumeCountPair.class);
 		
-		job.setNumReduceTasks(1);
+		job.setPartitionerClass(StockPartitioner.class);
+		
+		job.setNumReduceTasks(4);
 		
 		FileOutputFormat.setOutputPath(job, new Path(args[2]));
 		
