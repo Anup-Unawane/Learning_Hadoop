@@ -18,12 +18,13 @@ import nyse.stock.NYSEStock;
 public class NYSEMapper extends
 		Mapper<LongWritable, Text, StockMonthPair, VolumeCountPair> 
 {
+	private static String TARGET_DATE_FORMAT = "yyyy-MM";
 	@Override
 	protected void map(LongWritable key, Text value,
 			Mapper<LongWritable, Text, StockMonthPair, VolumeCountPair>.Context context)
 			throws IOException, InterruptedException 
 	{
-		NYSEStock stock = NYSEStockParser.parse(value.toString());
+		NYSEStock stock = NYSEStockParser.parse(value.toString(), TARGET_DATE_FORMAT);
 		StockMonthPair mapOPKey = new StockMonthPair(stock.getStockTicker(), stock.getTradeDate());
 		VolumeCountPair mapOPVal = new VolumeCountPair(new LongWritable(stock.getVolume()), new LongWritable(1));
 		

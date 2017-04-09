@@ -21,6 +21,7 @@ import nyse.stock.NYSEStock;
 public class NYSEMapperWithFilter extends
 Mapper<LongWritable, Text, StockMonthPair, VolumeCountPair> 
 {
+	private static String TARGET_DATE_FORMAT = "yyyy-MM";
 	private Set<String> stocksToFilter = new HashSet<>();
 
 	/**
@@ -41,7 +42,7 @@ Mapper<LongWritable, Text, StockMonthPair, VolumeCountPair>
 			Mapper<LongWritable, Text, StockMonthPair, VolumeCountPair>.Context context)
 					throws IOException, InterruptedException 
 	{
-		NYSEStock stock = NYSEStockParser.parse(value.toString());
+		NYSEStock stock = NYSEStockParser.parse(value.toString(), TARGET_DATE_FORMAT);
 
 		if(stocksToFilter.isEmpty() || stocksToFilter.contains(stock.getStockTicker()))
 		{

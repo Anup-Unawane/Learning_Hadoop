@@ -17,10 +17,10 @@ public class NYSEStockBuilder {
 		this.stockTicker = stockTicker;
 		return this;
 	}
-	public NYSEStockBuilder setTradeDate(String tradeDate) {
+	public NYSEStockBuilder setTradeDate(String tradeDate, String targetDateFormat) {
 		this.tradeDate = tradeDate;
 		SimpleDateFormat sf1 = new SimpleDateFormat("dd-MMM-yyyy");
-		SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM");
+		SimpleDateFormat sf2 = new SimpleDateFormat(targetDateFormat);//"yyyy-MM"
 		
 		Date dt1 = new Date();
 		try {

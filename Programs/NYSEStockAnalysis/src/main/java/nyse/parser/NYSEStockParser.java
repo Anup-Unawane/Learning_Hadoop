@@ -5,7 +5,7 @@ import nyse.stock.NYSEStockBuilder;
 
 public class NYSEStockParser 
 {
-	public static NYSEStock parse(String record)
+	public static NYSEStock parse(String record, String dateFormat)
 	{
 		String []data = record.split(",");
 		
@@ -25,7 +25,7 @@ public class NYSEStockParser
 		
 		NYSEStock stock = new NYSEStockBuilder()
 								  .setStockTicker(stockTicker)
-								  .setTradeDate(tradeDate)
+								  .setTradeDate(tradeDate, dateFormat)
 								  .setOpenPrice(openPrice)
 								  .setHighPrice(highPrice)
 								  .setLowPrice(lowPrice)

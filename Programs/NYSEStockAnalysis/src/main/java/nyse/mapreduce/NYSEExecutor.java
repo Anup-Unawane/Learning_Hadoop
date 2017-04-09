@@ -14,6 +14,12 @@ import nyse.keyvalues.StockMonthPair;
 
 /**
  * Map-Reduce Program to calculate Average volume of stock traded per month
+ *  Run this class with 3 arguments
+ * 1. Input directory
+ * 2. Output Directory
+ * e.g.
+ * /home/anup/Datasets/nyse/ /home/anup/work/mapreduce/avgstockpermonth
+ * 
  */
 
 public class NYSEExecutor extends Configured implements Tool 
@@ -39,7 +45,6 @@ public class NYSEExecutor extends Configured implements Tool
 		job.setOutputKeyClass(StockMonthPair.class);
 		job.setOutputValueClass(VolumeCountPair.class);
 		
-		//since we dont have reducer yet
 		job.setNumReduceTasks(1);
 		
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
